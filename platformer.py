@@ -4,15 +4,26 @@ pygame.init()
 
 clock = pygame.time.Clock()
 
+
 # Set up the game window
 screen = pygame.display.set_mode((400, 400))
 pygame.display.set_caption("Hello Pygame")
 player_speed=5
+sprites = pygame.sprite.Group()
 # Game loop
-mario = pygame.transform.scale(pygame.image.load("mario-2d.png"), (50, 50))
-mario_rect = mario.get_rect()
+mario=pygame.sprite.Sprite(sprites)
+mario.image = pygame.image.load("mario.png")
+mario.image=pygame.transform.scale(mario.image,(50,50))
+mario.rect = mario.image.get_rect()
+pygame.transform.scale(screen,(50,50))
 
 running = True
+
+bg = pygame.image.load(".mario_background.png")
+
+#INSIDE OF THE GAME LOOP
+screen.blit(bg, (0, 0))
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -21,16 +32,18 @@ while running:
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_LEFT]:
-        mario_rect.x -= player_speed
+        mario.rect.x -= player_speed
     if keys[pygame.K_RIGHT]:
-        mario_rect.x += player_speed
+        mario.rect.x += player_speed
     if keys[pygame.K_UP]:
-        mario_rect.y -= player_speed   # up = minus
+        mario.rect.y -= player_speed   # up = minus
     if keys[pygame.K_DOWN]:
-        mario_rect.y += player_speed   # down = plus
+        mario.rect.y += player_speed   # down = plus
 
-    screen.fill("purple")
-    screen.blit(mario, mario_rect)
+    screen.blit(bg, (0, 0))
+
+    # screen.blit(mario, mario_rect)
+    sprites.draw(screen)
     pygame.display.flip()
     clock.tick(60)
 
